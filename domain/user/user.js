@@ -1,17 +1,24 @@
+const UserContactData = require('./user-contact-data');
+
 class User {
-    constructor(id, name, surnames, email, password, country, phone, postalCode) {
+    constructor({ id, contactData = {}, name, surnames, password }) {
         this._id = id;
+        this.contactData = contactData;
         this._name = name;
         this._surnames = surnames;
-        this._email = email;
         this._password = password;
-        this._country = country;
-        this._phone = phone;
-        this._postalCode = postalCode;
     }
 
     get id() {
         return this._id;
+    }
+
+    get contactData() {
+        return this._contactData;
+    }
+
+    set contactData(contactData) {
+        this._contactData = new UserContactData(contactData);
     }
 
     get name() {
@@ -22,24 +29,8 @@ class User {
         return this._surnames;
     }
 
-    get email() {
-        return this._email;
-    }
-
     get password() {
         return this._password;
-    }
-
-    get country() {
-        return this._country;
-    }
-
-    get phone() {
-        return this._phone;
-    }
-
-    get postalCode() {
-        return this._postalCode;
     }
 
 }

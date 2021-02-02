@@ -6,14 +6,27 @@ describe('User', () => {
            _id: 'id',
            _name: 'name',
            _surnames: 'surnames',
-           _email: 'email',
-           _password: 'password',
-           _country: 'country',
-           _phone: 'phone',
-           _postalCode: 'postalCode'
+           _contactData: {
+               _phone: 'phone',
+               _email: 'email',
+               _country: 'country',
+               _postalCode: 'postalCode'
+           },
+           _password: 'password'
        }
 
-       const actualUser = new User('id', 'name', 'surnames', 'email', 'password', 'country', 'phone', 'postalCode');
+       const actualUser = new User({
+           id: 'id',
+           name: 'name',
+           surnames: 'surnames',
+           contactData: {
+               phone: 'phone',
+               email: 'email',
+               country: 'country',
+               postalCode: 'postalCode'
+           },
+           password: 'password'
+       });
 
        expect(actualUser).toEqual(expectedUser);
    })
