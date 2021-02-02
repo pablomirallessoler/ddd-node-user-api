@@ -4,8 +4,8 @@ const UserContactData = require('./user-contact-data');
 class User {
 
     constructor({ id, password, info= {}, contactData = {} }) {
-        this._id = id;
-        this._password = password;
+        this.id = id;
+        this.password = password;
         this.info = info;
         this.contactData = contactData;
     }
@@ -14,8 +14,22 @@ class User {
         return this._id;
     }
 
+    set id(id) {
+        if (!id) {
+            throw new Error('Id is required');
+        }
+        this._id = id;
+    }
+
     get password() {
         return this._password;
+    }
+
+    set password(password) {
+        if (!password) {
+            throw new Error('Password is required');
+        }
+        this._password = password;
     }
 
     get info() {

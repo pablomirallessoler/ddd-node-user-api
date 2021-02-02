@@ -16,7 +16,6 @@ describe('User', () => {
                _postalCode: 'postalCode'
            }
        }
-
        const actualUser = new User({
            id: 'id',
            password: 'password',
@@ -31,7 +30,37 @@ describe('User', () => {
                postalCode: 'postalCode'
            }
        });
-
        expect(actualUser).toEqual(expectedUser);
-   })
+   });
+
+   test('should throw Error if id is null', () => {
+       expect(() =>
+           new User({ id: null })
+       ).toThrow('Id is required');
+   });
+
+   test('should throw Error if password is null', () => {
+       expect(() =>
+           new User({ id: 'id', password: null })
+       ).toThrow('Password is required');
+   });
+
+   test('should throw Error if firstName is null', () => {
+       expect(() =>
+           new User({ id: 'id', password: 'password', info: { firstName: null } })
+       ).toThrow('FirstName is required');
+   });
+
+   test('should throw Error if phone is null', () => {
+       expect(() =>
+           new User({ id: 'id', password: 'password', info: { firstName: 'firstName' }, contactData: { phone: null } })
+       ).toThrow('Phone is required');
+   });
+
+   test('should throw Error if email is null', () => {
+       expect(() =>
+           new User({ id: 'id', password: 'password', info: { firstName: 'firstName' }, contactData: { phone: 'phone', email: null } })
+       ).toThrow('Email is required');
+   });
+
 });
