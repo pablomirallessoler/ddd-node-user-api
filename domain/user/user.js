@@ -1,16 +1,29 @@
+const UserInfo = require('./user-info');
 const UserContactData = require('./user-contact-data');
 
 class User {
-    constructor({ id, contactData = {}, name, surnames, password }) {
+
+    constructor({ id, password, info= {}, contactData = {} }) {
         this._id = id;
-        this.contactData = contactData;
-        this._name = name;
-        this._surnames = surnames;
         this._password = password;
+        this.info = info;
+        this.contactData = contactData;
     }
 
     get id() {
         return this._id;
+    }
+
+    get password() {
+        return this._password;
+    }
+
+    get info() {
+        return this._info;
+    }
+
+    set info(info) {
+        this._info = new UserInfo(info);
     }
 
     get contactData() {
@@ -19,18 +32,6 @@ class User {
 
     set contactData(contactData) {
         this._contactData = new UserContactData(contactData);
-    }
-
-    get name() {
-        return this._name;
-    }
-
-    get surnames() {
-        return this._surnames;
-    }
-
-    get password() {
-        return this._password;
     }
 
 }
