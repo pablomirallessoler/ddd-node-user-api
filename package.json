@@ -4,7 +4,8 @@
   "description": "Voicemod user",
   "main": "index.js",
   "scripts": {
-    "start": "node . index.js"
+    "start": "node . index.js",
+    "test": "jest"
   },
   "author": "Pablo Miralles",
   "license": "ISC",
