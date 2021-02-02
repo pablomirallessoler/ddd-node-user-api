@@ -1,16 +1,16 @@
 class UserInfo {
 
-    constructor({ name, surnames }) {
-        this._name = name;
-        this._surnames = surnames;
+    constructor({ firstName, lastName }) {
+        this._firstName = firstName;
+        this._lastName = lastName;
     }
 
-    get name() {
-        return this._name;
+    get firstName() {
+        return this._firstName;
     }
 
-    get surnames() {
-        return this._surnames;
+    get lastName() {
+        return this._lastName;
     }
 
 }

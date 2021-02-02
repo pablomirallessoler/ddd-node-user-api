@@ -6,8 +6,8 @@ describe('User', () => {
            _id: 'id',
            _password: 'password',
            _info: {
-               _name: 'name',
-               _surnames: 'surnames',
+               _firstName: 'firstName',
+               _lastName: 'lastName'
            },
            _contactData: {
                _phone: 'phone',
@@ -21,8 +21,8 @@ describe('User', () => {
            id: 'id',
            password: 'password',
            info: {
-               name: 'name',
-               surnames: 'surnames',
+               firstName: 'firstName',
+               lastName: 'lastName'
            },
            contactData: {
                phone: 'phone',
