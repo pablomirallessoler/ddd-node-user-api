@@ -1,0 +1,14 @@
+version: '3.7'
+
+services:
+  mongo:
+    image: mongo:4.2
+    restart: always
+    container_name: voicemod-mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - voicemod-mongo:/data/db
+
+volumes:
+  voicemod-mongo:
