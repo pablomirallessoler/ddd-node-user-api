@@ -1,13 +1,13 @@
 const awilix = require('awilix');
 
-const MongoHandler = require('./infraestructure/persistence/mongo/handler');
+const MongoAdapter = require('./infraestructure/persistence/mongo/mongo-adapter');
 
 const container = awilix.createContainer({
     injectionMode: awilix.InjectionMode.PROXY
 });
 
 container.register({
-    mongoDb: awilix.asClass(MongoHandler)
+    mongoAdapter: awilix.asClass(MongoAdapter).singleton()
 });
 
 module.exports = container;
