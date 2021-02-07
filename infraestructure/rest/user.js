@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const authValidator = require('./middlewares/auth-validator');
 const container = require('../../container');
 const registerUser = container.resolve('registerUser');
 const updateUser = container.resolve('updateUser');
@@ -16,8 +17,9 @@ router.post('/users', async(req, res, next) => {
     }
 });
 
-router.put('/users/:id', async(req, res, next) => {
+router.put('/users/:id', authValidator, async(req, res, next) => {
     try {
+        const id = req.params.id;
         await updateUser.update({ id, ...req.body });
 
         return res.status(204).send();
@@ -26,7 +28,7 @@ router.put('/users/:id', async(req, res, next) => {
     }
 });
 
-router.delete('/users/:id', async(req, res, next) => {
+router.delete('/users/:id', authValidator, async(req, res, next) => {
     try {
         const id = req.params.id;
         await deleteUser.delete({ id });
