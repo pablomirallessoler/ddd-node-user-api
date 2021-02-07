@@ -1,7 +1,7 @@
 const { ObjectID } = require('mongodb');
 const User = require('../../../domain/user/user')
 
-class UserMapper {
+class MongoUserMapper {
 
     constructor() {
     }
@@ -29,4 +29,4 @@ class UserMapper {
 
 }
 
-module.exports = UserMapper;
+module.exports = MongoUserMapper;

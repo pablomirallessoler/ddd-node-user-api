@@ -1,6 +1,6 @@
 const { MongoClient } = require('mongodb');
 
-class MongoAdapter {
+class Adapter {
 
     constructor() {
     }
@@ -28,4 +28,4 @@ class MongoAdapter {
 
 }
 
-module.exports = MongoAdapter;
+module.exports = Adapter;
