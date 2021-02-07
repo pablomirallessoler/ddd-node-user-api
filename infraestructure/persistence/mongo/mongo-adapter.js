@@ -11,7 +11,7 @@ class MongoAdapter {
     }
 
     async getClient() {
-        if (this._client) {
+        if (this._client && this._client.isConnected()) {
             return this._client;
         }
         await this.connect();
@@ -20,7 +20,7 @@ class MongoAdapter {
     }
 
     async disconnect() {
-        if (this._client) {
+        if (this._client && this._client.isConnected()) {
             await this._client.close();
             console.log(`Mongo disconnected`);
         }
