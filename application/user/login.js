@@ -7,13 +7,13 @@ class LoginUser {
     }
 
     async login({ email, password }) {
-        const persistedUser = this._userRepository.findByEmail(email);
+        const persistedUser = await this._userRepository.findByEmail(email);
 
         if (!persistedUser) {
             throw new Error('Invalid email or password');
         }
 
-        if (this._bcryptPassword.compare(password, persistedUser.password)) {
+        if (await this._bcryptPassword.compare(password, persistedUser.password)) {
             return this._jsonWebToken.encode({ id: persistedUser.id });
         }
 

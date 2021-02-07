@@ -15,11 +15,11 @@ class UpdateUser {
         }
 
         if (persistedUser.contactData.email !== email) {
-            if (this._userRepository.findByEmail(email)) {
+            if (await this._userRepository.findByEmail(email)) {
                 throw new Error('This email is already registered');
             }
         }
-        const encryptedPassword = this._bcryptPassword.encrypt(password);
+        const encryptedPassword = await this._bcryptPassword.encrypt(password);
 
         const user = new User({
             id,
