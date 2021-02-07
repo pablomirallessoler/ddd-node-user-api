@@ -1,7 +1,7 @@
 {
-  "name": "voicemod-user",
+  "name": "ddd-node-user-api",
   "version": "1.0.0",
-  "description": "Voicemod user",
+  "description": "DDD node user api",
   "main": "index.js",
   "scripts": {
     "start": "node . index.js",

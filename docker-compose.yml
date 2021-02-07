@@ -4,11 +4,11 @@ services:
   mongo:
     image: mongo:4.2
     restart: always
-    container_name: voicemod-mongo
+    container_name: ddd-node-mongo
     ports:
       - 27017:27017
     volumes:
-      - voicemod-mongo:/data/db
+      - ddd-node-mongo:/data/db
 
 volumes:
-  voicemod-mongo:
+  ddd-node-mongo:
