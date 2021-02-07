@@ -1,6 +1,7 @@
 const User = require('../../../domain/user/user');
 
 describe('User', () => {
+
    test('should create a user correctly', () => {
        const expectedUser = {
            _id: 'id',

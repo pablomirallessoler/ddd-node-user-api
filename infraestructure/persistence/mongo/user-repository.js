@@ -13,6 +13,12 @@ class UserRepository {
         return this._mapper.toDomain(userDb);
     }
 
+    async findByEmail(email) {
+        const client = await this._adapter.getClient();
+        const userDb = await client.collection('users').findOne({ email });
+        return this._mapper.toDomain(userDb);
+    }
+
     async save(user) {
         const client = await this._adapter.getClient();
 

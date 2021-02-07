@@ -60,7 +60,7 @@ describe('Mongo user repository', () => {
         expect(actualUser).toEqual(expectedUser);
     });
 
-    test('should return null if user not exists', async () => {
+    test('should return null if user id not exists', async () => {
         const userId = '601fc3f352c4e17bb8574a83';
         const findMock = jest.fn(() => Promise.resolve());
         const collectionMock = {
@@ -76,6 +76,69 @@ describe('Mongo user repository', () => {
 
         expect(findMock.mock.calls.length).toBe(1);
         expect(findMock.mock.calls[0][0]).toEqual({ _id: new ObjectId(userId) } );
+        expect(actualUser).toEqual(expectedUser);
+    });
+
+    test('should find user document by email', async () => {
+        const userId = '601fc3f352c4e17bb8574a83';
+        const userEmail = 'email@email.com';
+        const userDocument = {
+            _id: new ObjectId(userId),
+            password: 'password',
+            firstName: 'firstName',
+            lastName: 'lastName',
+            phone: 'phone',
+            email: userEmail,
+            country: 'country',
+            postalCode: 'postalCode'
+        }
+        const findMock = jest.fn(() => Promise.resolve(userDocument));
+        const collectionMock = {
+            collection: () => {
+                return { findOne: findMock }
+            }
+        }
+        mongoAdapterMock.getClient.mockReturnValue(collectionMock);
+
+        const expectedUser = new User({
+            id: userId,
+            password: 'password',
+            info: {
+                firstName: 'firstName',
+                lastName: 'lastName'
+            },
+            contactData: {
+                phone: 'phone',
+                email: userEmail,
+                country: 'country',
+                postalCode: 'postalCode'
+            }
+        });
+
+        const actualUser = await mongoUserRepository.findByEmail(userEmail);
+
+        expect(findMock.mock.calls.length).toBe(1);
+        expect(findMock.mock.calls[0][0]).toEqual({ email: userEmail } );
+        expect(actualUser).toEqual(expectedUser);
+    });
+
+    test('should return null if user email not exists', async () => {
+        const userId = '601fc3f352c4e17bb8574a83';
+        const userEmail = 'email@email.com';
+        const findMock = jest.fn(() => Promise.resolve());
+        const collectionMock = {
+            collection: () => {
+                return { findOne: findMock }
+            }
+        }
+        mongoAdapterMock.getClient.mockReturnValue(collectionMock);
+
+        const expectedUser = null
+
+        const actualUser = await mongoUserRepository.findByEmail(userEmail);
+
+        expect(findMock.mock.calls.length).toBe(1);
+        expect(findMock.mock.calls[0][0]).toEqual({ email: userEmail } );
         expect(actualUser).toEqual(expectedUser);
     });
 
