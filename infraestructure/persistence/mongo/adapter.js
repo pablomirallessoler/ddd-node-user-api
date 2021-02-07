@@ -20,7 +20,6 @@ class Adapter {
     }
 
     async disconnect() {
-        console.log("entra");
         if (this._client && this._client.isConnected()) {
             await this._client.close();
             console.log(`Mongo disconnected`);
