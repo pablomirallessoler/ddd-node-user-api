@@ -17,9 +17,9 @@ const container = awilix.createContainer({
 });
 
 container.register({
-    mongoAdapter: awilix.asClass(MongoAdapter).singleton(),
-    mongoUserMapper: awilix.asClass(MongoUserMapper),
-    mongoUserRepository: awilix.asClass(MongoUserRepository),
+    adapter: awilix.asClass(MongoAdapter).singleton(),
+    userMapper: awilix.asClass(MongoUserMapper),
+    userRepository: awilix.asClass(MongoUserRepository),
     bcryptPassword: awilix.asClass(BcryptPassword),
     jsonWebToken: awilix.asClass(JsonWebToken),
     registerUser: awilix.asClass(RegisterUser),

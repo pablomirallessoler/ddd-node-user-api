@@ -1,10 +1,10 @@
 const { ObjectID } = require('mongodb');
 
-class UserRepository {
+class MongoUserRepository {
 
-    constructor({ mongoAdapter, mongoUserMapper }) {
-        this._adapter = mongoAdapter;
-        this._mapper = mongoUserMapper;
+    constructor({ adapter, userMapper }) {
+        this._adapter = adapter;
+        this._mapper = userMapper;
     }
 
     async findById(id) {
@@ -33,4 +33,4 @@ class UserRepository {
 
 }
 
-module.exports = UserRepository;
+module.exports = MongoUserRepository;

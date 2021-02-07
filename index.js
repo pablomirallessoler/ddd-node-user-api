@@ -1,13 +1,14 @@
 require('dotenv').config();
-const container = require('./container');
-
-
 const express = require('express');
 const app = express();
-
+const bodyParser = require('body-parser');
 const PORT = process.env.PORT;
-const mongo = container.resolve('mongoAdapter');
+const userRouter = require('./infraestructure/rest/user');
 
-mongo.getClient();
+app.use(bodyParser.json());
 
-app.listen(PORT, () => console.log(`User listening at http://localhost:${PORT}`));
+app.use(userRouter);
+
+const server = app.listen(PORT, () => console.log(`User listening at http://localhost:${PORT}`));
+
+module.exports = { app, server };

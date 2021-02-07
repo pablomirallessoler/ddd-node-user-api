@@ -7,17 +7,31 @@ class RegisterUser {
         this._bcryptPassword = bcryptPassword;
     }
 
-    async register({ id, password, info= {}, contactData = {} }) {
-        const persistedUser = await this._userRepository.findByEmail(contactData.email);
+    async register({ id, password, firstName, lastName, phone, email, country, postalCode }) {
+        const persistedUser = await this._userRepository.findByEmail(email);
 
         if (persistedUser) {
             throw new Error('This email is already registered');
         }
 
         const encryptedPassword = this._bcryptPassword.encrypt(password);
-        const user = new User({ id, password: encryptedPassword, info, contactData });
 
-        await this._userRepository.save(user);
+        const user = new User({
+            id,
+            password: encryptedPassword,
+            info: {
+                firstName,
+                lastName
+            },
+            contactData: {
+                phone,
+                email,
+                country,
+                postalCode
+            }
+        });
+
+        return await this._userRepository.save(user);
     }
 
 }

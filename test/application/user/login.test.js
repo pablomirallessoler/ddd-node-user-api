@@ -6,7 +6,7 @@ describe('Login', () => {
     let jsonWebTokenMock;
     let bcryptPasswordMock;
     let userRepositoryMock;
-    
+
     const request = {
         email: 'email',
         password: 'password'

@@ -6,7 +6,7 @@ describe('Register user', () => {
     let registerUser;
     let userRepositoryMock;
     let bcryptPasswordMock;
-    let user;
+    let userRequest;
 
     beforeEach(() => {
         userRepositoryMock = {
@@ -21,25 +21,21 @@ describe('Register user', () => {
             bcryptPassword: awilix.asValue(bcryptPasswordMock)
         });
         registerUser = container.resolve('registerUser');
-        user = {
+        userRequest = {
             id: '601fc3f352c4e17bb8574a83',
             password: 'password',
-            info: {
-                firstName: 'firstName',
-                lastName: 'lastName'
-            },
-            contactData: {
-                phone: 'phone',
-                email: 'email',
-                country: 'country',
-                postalCode: 'postalCode'
-            }
+            firstName: 'firstName',
+            lastName: 'lastName',
+            phone: 'phone',
+            email: 'email',
+            country: 'country',
+            postalCode: 'postalCode'
         };
     })
 
     test('should throw Error if user email is already registered', async () => {
         userRepositoryMock.findByEmail.mockReturnValue({});
-        await expect(registerUser.register(user)).rejects.toThrow('This email is already registered');
+        await expect(registerUser.register(userRequest)).rejects.toThrow('This email is already registered');
     });
 
     test('should register user', async () => {
@@ -61,13 +57,13 @@ describe('Register user', () => {
             }
         });
 
-        await registerUser.register(user);
+        await registerUser.register(userRequest);
 
         expect(bcryptPasswordMock.encrypt.mock.calls.length).toEqual(1);
-        expect(bcryptPasswordMock.encrypt.mock.calls[0][0]).toEqual(user.password);
+        expect(bcryptPasswordMock.encrypt.mock.calls[0][0]).toEqual(userRequest.password);
 
         expect(userRepositoryMock.findByEmail.mock.calls.length).toEqual(1);
-        expect(userRepositoryMock.findByEmail.mock.calls[0][0]).toEqual(user.contactData.email);
+        expect(userRepositoryMock.findByEmail.mock.calls[0][0]).toEqual(userRequest.email);
 
         expect(userRepositoryMock.save.mock.calls[0][0]).toEqual(expectedUser);
     });

@@ -13,9 +13,9 @@ describe('Mongo user repository', () => {
             getClient: jest.fn()
         };
         container.register({
-            mongoAdapter: awilix.asValue(mongoAdapterMock)
+            adapter: awilix.asValue(mongoAdapterMock)
         });
-        mongoUserRepository = container.resolve('mongoUserRepository');
+        mongoUserRepository = container.resolve('userRepository');
     })
 
     test('should find user document by id', async () => {
