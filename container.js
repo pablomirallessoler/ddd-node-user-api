@@ -7,6 +7,7 @@ const MongoUserMapper = require('./infraestructure/persistence/mongo/user-mapper
 const BcryptPassword = require('./infraestructure/security/bcrypt-password');
 
 const RegisterUser = require('./application/user/register');
+const DeleteUser = require('./application/user/delete');
 
 const container = awilix.createContainer({
     injectionMode: awilix.InjectionMode.PROXY
@@ -17,7 +18,8 @@ container.register({
     mongoUserMapper: awilix.asClass(MongoUserMapper),
     mongoUserRepository: awilix.asClass(MongoUserRepository),
     bcryptPassword: awilix.asClass(BcryptPassword),
-    registerUser: awilix.asClass(RegisterUser)
+    registerUser: awilix.asClass(RegisterUser),
+    deleteUser: awilix.asClass(DeleteUser)
 });
 
 module.exports = container;
