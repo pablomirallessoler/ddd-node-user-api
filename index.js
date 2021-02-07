@@ -8,6 +8,7 @@ const userRouter = require('./infraestructure/rest/user');
 const errorHandler = require('./infraestructure/rest/handlers/error-handler');
 const jsonContentType = require('./infraestructure/rest/middlewares/json-content-type');
 
+const adapter = container.resolve('adapter');
 
 app.use(bodyParser.json());
 app.use(jsonContentType);
@@ -17,5 +18,13 @@ app.use(userRouter);
 app.use(errorHandler);
 
 const server = app.listen(PORT, () => console.log(`User listening at http://localhost:${PORT}`));
+
+const shutDown = async () => {
+    await adapter.disconnect();
+    process.exit();
+}
+
+process.on('SIGTERM', shutDown);
+process.on('SIGINT', shutDown);
 
 module.exports = { app, server };
