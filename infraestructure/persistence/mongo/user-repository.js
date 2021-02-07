@@ -7,7 +7,7 @@ class UserRepository {
         this._mapper = mongoUserMapper;
     }
 
-    async find(id) {
+    async findById(id) {
         const client = await this._adapter.getClient();
         const userDb = await client.collection('users').findOne({ _id: new ObjectID(id) });
         return this._mapper.toDomain(userDb);

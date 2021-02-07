@@ -53,7 +53,7 @@ describe('Mongo user repository', () => {
             }
         });
 
-        const actualUser = await mongoUserRepository.find(userId);
+        const actualUser = await mongoUserRepository.findById(userId);
 
         expect(findMock.mock.calls.length).toBe(1);
         expect(findMock.mock.calls[0][0]).toEqual({ _id: new ObjectId(userId) } );
@@ -72,7 +72,7 @@ describe('Mongo user repository', () => {
 
         const expectedUser = null
 
-        const actualUser = await mongoUserRepository.find(userId);
+        const actualUser = await mongoUserRepository.findById(userId);
 
         expect(findMock.mock.calls.length).toBe(1);
         expect(findMock.mock.calls[0][0]).toEqual({ _id: new ObjectId(userId) } );
