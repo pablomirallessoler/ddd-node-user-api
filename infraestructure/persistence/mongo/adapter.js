@@ -12,14 +12,15 @@ class Adapter {
 
     async getClient() {
         if (this._client && this._client.isConnected()) {
-            return this._client;
+            return this._client.db('ddd');
         }
         await this.connect();
 
-        return this._client;
+        return this._client.db('ddd');
     }
 
     async disconnect() {
+        console.log("entra");
         if (this._client && this._client.isConnected()) {
             await this._client.close();
             console.log(`Mongo disconnected`);

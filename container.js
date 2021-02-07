@@ -5,7 +5,7 @@ const MongoUserRepository = require('./infraestructure/persistence/mongo/user-re
 const MongoUserMapper = require('./infraestructure/persistence/mongo/user-mapper');
 
 const BcryptPassword = require('./infraestructure/security/bcrypt-password');
-const JsonWebToken = require('./infraestructure/security/json-web-token')
+const JsonWebToken = require('./infraestructure/security/json-web-token');
 
 const RegisterUser = require('./application/user/register');
 const DeleteUser = require('./application/user/delete');
