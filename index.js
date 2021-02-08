@@ -6,12 +6,10 @@ const PORT = process.env.PORT;
 const container = require('./container');
 const userRouter = require('./infraestructure/rest/user');
 const errorHandler = require('./infraestructure/rest/handlers/error-handler');
-const jsonContentType = require('./infraestructure/rest/middlewares/json-content-type');
 
 const adapter = container.resolve('adapter');
 
 app.use(bodyParser.json());
-app.use(jsonContentType);
 
 app.use(userRouter);
 

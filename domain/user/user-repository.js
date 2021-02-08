@@ -21,6 +21,7 @@ class UserRepository {
     async delete(id) {
         throw new Error('Abstract method!');
     }
+
 }
 
 module.exports = UserRepository;

@@ -5,14 +5,14 @@ const authValidator = (req, res, next) => {
     const { headers } = req;
 
     if (!headers || !headers.authorization) {
-        return res.status(401).send({ error: 'Missing Authorization Header' })
+        return res.status(401).send({ error: 'Missing Authorization Header' });
     }
 
     const authorizationType = headers.authorization.split(' ')[0];
     const encodedToken = headers.authorization.split(' ')[1];
 
     if (!authorizationType || authorizationType !== 'Bearer' || !encodedToken) {
-        throw new Error('Invalid Authorization type');
+        return res.status(401).send({ error: 'Invalid Authorization type' });
     }
 
     const decodedToken = JsonWebToken.decode(encodedToken);
@@ -20,7 +20,7 @@ const authValidator = (req, res, next) => {
     if (Date.now() <= decodedToken.exp * 1000) {
         next();
     } else {
-        throw new Error('Session is expired');
+        return res.status(401).send({ error: 'Session is expired' });
     }
 };
 
