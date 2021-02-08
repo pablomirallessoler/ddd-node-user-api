@@ -12,7 +12,7 @@ const authValidator = (req, res, next) => {
     const encodedToken = headers.authorization.split(' ')[1];
 
     if (authorizationType !== 'Bearer' || !encodedToken) {
-        throw new Error('Invalid authorization type');
+        throw new Error('Invalid Authorization type');
     }
 
     const decodedToken = jsonWebToken.decode(encodedToken);
