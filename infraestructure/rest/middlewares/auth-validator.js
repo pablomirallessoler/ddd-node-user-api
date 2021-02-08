@@ -1,5 +1,5 @@
 const container = require('../../../container');
-const jsonWebToken = container.resolve('jsonWebToken');
+const JsonWebToken = container.resolve('jsonWebToken');
 
 const authValidator = (req, res, next) => {
     const { headers } = req;
@@ -11,11 +11,11 @@ const authValidator = (req, res, next) => {
     const authorizationType = headers.authorization.split(' ')[0];
     const encodedToken = headers.authorization.split(' ')[1];
 
-    if (authorizationType !== 'Bearer' || !encodedToken) {
+    if (!authorizationType || authorizationType !== 'Bearer' || !encodedToken) {
         throw new Error('Invalid Authorization type');
     }
 
-    const decodedToken = jsonWebToken.decode(encodedToken);
+    const decodedToken = JsonWebToken.decode(encodedToken);
 
     if (Date.now() <= decodedToken.exp * 1000) {
         next();

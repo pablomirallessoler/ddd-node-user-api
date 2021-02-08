@@ -1,8 +1,10 @@
 const { ObjectID } = require('mongodb');
+const UserRepository = require('../../../domain/user/user-repository');
 
-class MongoUserRepository {
+class MongoUserRepository extends UserRepository {
 
     constructor({ adapter, userMapper }) {
+        super();
         this._adapter = adapter;
         this._mapper = userMapper;
     }
