@@ -17,12 +17,11 @@ const authValidator = (req, res, next) => {
 
     const decodedToken = jsonWebToken.decode(encodedToken);
 
-    if (decodedToken.exp < Date.now()) {
+    if (Date.now() <= decodedToken.exp * 1000) {
         next();
     } else {
         throw new Error('Session is expired');
     }
-
 };
 
 module.exports = authValidator;

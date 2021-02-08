@@ -1,7 +1,7 @@
 const awilix = require('awilix');
 const { ObjectId } = require('mongodb');
-const User = require('../../../domain/user/user');
-const container = require('../../../container');
+const User = require('../../../../domain/user/user');
+const container = require('../../../../container');
 
 describe('Mongo user repository', () => {
 
