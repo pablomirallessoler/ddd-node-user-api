@@ -188,7 +188,7 @@ describe('Mongo user repository', () => {
         const deleteMock = jest.fn(() => Promise.resolve());
         const collectionMock = {
             collection: () => {
-                return { remove: deleteMock }
+                return { deleteOne: deleteMock }
             }
         }
         mongoAdapterMock.getClient.mockReturnValue(collectionMock);

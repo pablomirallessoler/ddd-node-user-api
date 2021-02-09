@@ -30,7 +30,7 @@ class MongoUserRepository extends UserRepository {
 
     async delete(id) {
         const client = await this._adapter.getClient();
-        await client.collection('users').remove({ _id: new ObjectID(id) });
+        await client.collection('users').deleteOne({ _id: new ObjectID(id) });
     }
 
 }

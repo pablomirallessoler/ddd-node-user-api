@@ -7,7 +7,7 @@ class UpdateUser {
         this._bcryptPassword = bcryptPassword;
     }
 
-    async update({ id, password, firstName, lastName, phone, email, country, postalCode }) {
+    async update({ id, firstName, lastName, phone, email, country, postalCode }) {
         const persistedUser = await this._userRepository.findById(id);
 
         if (!persistedUser) {
@@ -19,11 +19,10 @@ class UpdateUser {
                 throw new Error('This email is already registered');
             }
         }
-        const encryptedPassword = await this._bcryptPassword.encrypt(password);
 
         const user = new User({
             id,
-            password: encryptedPassword,
+            password: persistedUser.password,
             info: {
                 firstName,
                 lastName

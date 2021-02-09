@@ -36,7 +36,7 @@ class AuthService {
         }
 
         if (await this._bcryptPassword.compare(password, persistedUser.password)) {
-            return this._jsonWebToken.encode({ id: persistedUser.id });
+            return this._jsonWebToken.encode({ authSession: { id: persistedUser.id } });
         }
 
         throw new Error('Invalid email or password');

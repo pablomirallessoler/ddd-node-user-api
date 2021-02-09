@@ -76,7 +76,7 @@ describe('AuthService', () => {
         expect(bcryptPasswordMock.compare.mock.calls[0][1]).toEqual(encryptedPassword);
 
         expect(jsonWebTokenMock.encode.mock.calls.length).toEqual(1);
-        expect(jsonWebTokenMock.encode.mock.calls[0][0]).toEqual({ id });
+        expect(jsonWebTokenMock.encode.mock.calls[0][0]).toEqual({ authSession: { id } });
 
         expect(actualToken).toEqual(expectedToken);
     });
