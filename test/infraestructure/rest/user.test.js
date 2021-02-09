@@ -160,6 +160,7 @@ describe('User rest', () => {
         });
 
         test('should return 204 status when deleting a user correctly', async () => {
+            deleteUserMock.delete.mockReturnValue({});
             const res = await request.delete('/users/6022d0adaefed3b3df48870e')
                 .send();
 
@@ -297,5 +298,5 @@ describe('User rest', () => {
     afterAll(async () => {
         await server.close();
     });
-    
+
 });
