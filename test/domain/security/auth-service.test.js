@@ -1,5 +1,4 @@
 const awilix = require('awilix');
-const AuthSession = require('../../../domain/security/auth-session');
 const container = require('../../../container');
 
 describe('AuthService', () => {
@@ -77,7 +76,7 @@ describe('AuthService', () => {
         expect(bcryptPasswordMock.compare.mock.calls[0][1]).toEqual(encryptedPassword);
 
         expect(jsonWebTokenMock.encode.mock.calls.length).toEqual(1);
-        expect(jsonWebTokenMock.encode.mock.calls[0][0]).toEqual(new AuthSession({ id }));
+        expect(jsonWebTokenMock.encode.mock.calls[0][0]).toEqual({ id });
 
         expect(actualToken).toEqual(expectedToken);
     });

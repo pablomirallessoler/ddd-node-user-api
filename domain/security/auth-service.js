@@ -1,4 +1,3 @@
-const AuthSession = require('../../domain/security/auth-session');
 const Token = require('./token');
 
 class AuthService {
@@ -37,9 +36,7 @@ class AuthService {
         }
 
         if (await this._bcryptPassword.compare(password, persistedUser.password)) {
-            const authSession = new AuthSession({ id: persistedUser.id });
-
-            return this._jsonWebToken.encode(authSession);
+            return this._jsonWebToken.encode({ id: persistedUser.id });
         }
 
         throw new Error('Invalid email or password');

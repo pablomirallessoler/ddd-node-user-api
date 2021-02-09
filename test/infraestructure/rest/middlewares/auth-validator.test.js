@@ -47,6 +47,6 @@ describe('Auth validator middleware', () => {
 
         next();
     });
-    
+
 
 });
