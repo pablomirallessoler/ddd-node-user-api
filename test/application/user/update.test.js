@@ -5,7 +5,6 @@ const User = require('../../../domain/user/user');
 describe('Update user', () => {
     let updateUser;
     let userRepositoryMock;
-    let bcryptPasswordMock;
     let userRequest;
 
     beforeEach(() => {
@@ -14,17 +13,12 @@ describe('Update user', () => {
             findByEmail: jest.fn(),
             findById: jest.fn()
         };
-        bcryptPasswordMock = {
-            encrypt: jest.fn()
-        }
         container.register({
-            userRepository: awilix.asValue(userRepositoryMock),
-            bcryptPassword: awilix.asValue(bcryptPasswordMock)
+            userRepository: awilix.asValue(userRepositoryMock)
         });
         updateUser = container.resolve('updateUser');
         userRequest = {
             id: '601fc3f352c4e17bb8574a83',
-            password: 'password',
             firstName: 'firstName',
             lastName: 'lastName',
             phone: 'phone',
@@ -47,9 +41,8 @@ describe('Update user', () => {
     });
 
     test('should update user', async () => {
-        userRepositoryMock.findById.mockReturnValue({ contactData: { email: 'previousEmail' } });
+        userRepositoryMock.findById.mockReturnValue({ password: 'encryptedPassword', contactData: { email: 'previousEmail' } });
         userRepositoryMock.findByEmail.mockReturnValue(null);
-        bcryptPasswordMock.encrypt.mockReturnValue('encryptedPassword');
 
         const expectedUser = new User({
             id: '601fc3f352c4e17bb8574a83',
@@ -73,9 +66,6 @@ describe('Update user', () => {
 
         expect(userRepositoryMock.findByEmail.mock.calls.length).toEqual(1);
         expect(userRepositoryMock.findByEmail.mock.calls[0][0]).toEqual(userRequest.email);
-
-        expect(bcryptPasswordMock.encrypt.mock.calls.length).toEqual(1);
-        expect(bcryptPasswordMock.encrypt.mock.calls[0][0]).toEqual(userRequest.password);
 
         expect(userRepositoryMock.save.mock.calls[0][0]).toEqual(expectedUser);
     });

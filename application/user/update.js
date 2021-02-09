@@ -2,9 +2,8 @@ const User = require('../../domain/user/user');
 
 class UpdateUser {
 
-    constructor({ userRepository, bcryptPassword }) {
+    constructor({ userRepository }) {
         this._userRepository = userRepository;
-        this._bcryptPassword = bcryptPassword;
     }
 
     async update({ id, firstName, lastName, phone, email, country, postalCode }) {
