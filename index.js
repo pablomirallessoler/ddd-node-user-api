@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const helmet = require("helmet");
 const app = express();
 const bodyParser = require('body-parser');
 const PORT = process.env.PORT;
@@ -9,6 +10,7 @@ const errorHandler = require('./infraestructure/rest/handlers/error-handler');
 
 const adapter = container.resolve('adapter');
 
+app.use(helmet());
 app.use(bodyParser.json());
 
 app.use(userRouter);
