@@ -12,6 +12,8 @@ const DeleteUser = require('./application/user/delete');
 const UpdateUser = require('./application/user/update');
 const LoginUser = require('./application/user/login');
 
+const AuthService = require('./domain/security/auth-service');
+
 const container = awilix.createContainer({
     injectionMode: awilix.InjectionMode.PROXY
 });
@@ -25,7 +27,8 @@ container.register({
     registerUser: awilix.asClass(RegisterUser),
     deleteUser: awilix.asClass(DeleteUser),
     updateUser: awilix.asClass(UpdateUser),
-    loginUser: awilix.asClass(LoginUser)
+    loginUser: awilix.asClass(LoginUser),
+    authService: awilix.asClass(AuthService)
 });
 
 module.exports = container;

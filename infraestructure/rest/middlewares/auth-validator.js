@@ -1,5 +1,5 @@
 const container = require('../../../container');
-const JsonWebToken = container.resolve('jsonWebToken');
+const authService = container.resolve('authService');
 
 const authValidator = (req, res, next) => {
     const { headers } = req;
@@ -15,13 +15,16 @@ const authValidator = (req, res, next) => {
         return res.status(401).send({ error: 'Invalid Authorization type' });
     }
 
-    const decodedToken = JsonWebToken.decode(encodedToken);
-
-    if (Date.now() <= decodedToken.exp * 1000) {
-        next();
-    } else {
-        return res.status(401).send({ error: 'Session is expired' });
+    try {
+        if (authService.isAuthenticated(encodedToken)) {
+            next();
+        } else {
+            return res.status(401).send({ error: 'Authorization error' });
+        }
+    } catch ({ message }) {
+        return res.status(401).send({ error: message });
     }
+
 };
 
 module.exports = authValidator;

@@ -4,17 +4,16 @@ const container = require('../../../../container');
 
 describe('Auth validator middleware', () => {
 
-    let jsonWebTokenMock;
+    let authServiceMock;
     let authValidator;
 
     beforeEach(() => {
-        jsonWebTokenMock = {
-            decode: jest.fn()
+        authServiceMock = {
+            isAuthenticated: jest.fn()
         };
         container.register({
-            jsonWebToken: awilix.asValue(jsonWebTokenMock)
+            authService: awilix.asValue(authServiceMock)
         });
-        jsonWebTokenMock.decode.mockReturnValue({ exp: 1612735347 });
 
         authValidator = require('../../../../infraestructure/rest/middlewares/auth-validator');
     });
@@ -48,22 +47,6 @@ describe('Auth validator middleware', () => {
 
         next();
     });
-
-    test('should return 401 when authorization header is expired', (next)=> {
-        const res = httpMocks.createResponse();
-        const req = httpMocks.createRequest({ headers: {
-                authorization: 'Bearer FAKE_EXPIRED_BEARER'
-            }
-        });
-
-        const { statusCode, _getData } = authValidator(req, res, next);
-
-        const expectedError = { error: 'Session is expired' }
-
-        expect(statusCode).toEqual(401);
-        expect(_getData()).toEqual(expectedError);
-
-        next();
-    });
+    
 
 });

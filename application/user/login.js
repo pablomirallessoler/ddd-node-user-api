@@ -1,23 +1,11 @@
 class LoginUser {
 
-    constructor({ userRepository, bcryptPassword, jsonWebToken }) {
-        this._jsonWebToken = jsonWebToken;
-        this._bcryptPassword = bcryptPassword;
-        this._userRepository = userRepository;
+    constructor({ authService }) {
+        this._authService = authService;
     }
 
     async login({ email, password }) {
-        const persistedUser = await this._userRepository.findByEmail(email);
-
-        if (!persistedUser) {
-            throw new Error('Invalid email or password');
-        }
-
-        if (await this._bcryptPassword.compare(password, persistedUser.password)) {
-            return this._jsonWebToken.encode({ id: persistedUser.id });
-        }
-
-        throw new Error('Invalid email or password');
+        return await this._authService.authenticate({ email, password });
     }
 
 }
