@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node . index.js",
-    "test": "NODE_ENV=test jest"
+    "test": "PORT=3003 NODE_ENV=test jest"
   },
   "author": "Pablo Miralles",
   "license": "ISC",
