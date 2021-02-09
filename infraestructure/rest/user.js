@@ -1,6 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const { check } = require('express-validator');
+
 const authValidator = require('./middlewares/auth-validator');
+const isBodyValid = require('./middlewares/rest-validator');
+
 const LoginCommand = require('../../application/user/commands/login');
 const DeleteUserCommand = require('../../application/user/commands/delete');
 const RegisterUserCommand = require('../../application/user/commands/register');
@@ -14,7 +18,21 @@ const updateUser = container.resolve('updateUser');
 const deleteUser = container.resolve('deleteUser');
 const loginUser = container.resolve('loginUser');
 
-router.post('/users', async(req, res, next) => {
+router.post('/users', [
+    check('id').notEmpty()
+        .bail()
+        .isMongoId(),
+    check('password').notEmpty()
+        .bail()
+        .isLength({ min: 6 }),
+    check('firstName').notEmpty(),
+    check('email').notEmpty()
+        .bail()
+        .isEmail(),
+    check('phone').notEmpty()
+        .bail()
+        .isNumeric()
+], isBodyValid, async(req, res, next) => {
     try {
         const command = new RegisterUserCommand({
             id: req.body.id,
@@ -35,7 +53,15 @@ router.post('/users', async(req, res, next) => {
     }
 });
 
-router.put('/users/:id', authValidator, async(req, res, next) => {
+router.put('/users/:id', authValidator, [
+    check('firstName').notEmpty(),
+    check('email').notEmpty()
+        .bail()
+        .isEmail(),
+    check('phone').notEmpty()
+        .bail()
+        .isNumeric()
+], isBodyValid, async(req, res, next) => {
     try {
         const id = req.params.id;
 
@@ -63,13 +89,20 @@ router.delete('/users/:id', authValidator, async(req, res, next) => {
         const command = new DeleteUserCommand({ id });
 
         await deleteUser.delete(command);
+
         return res.status(204).send();
     } catch (ex) {
         next(ex);
     }
 });
 
-router.post('/login', async(req, res, next) => {
+router.post('/login', [
+    check('email').notEmpty()
+        .bail()
+        .isEmail(),
+    check('password')
+        .notEmpty()
+], isBodyValid, async(req, res, next) => {
     try {
         const command = new LoginCommand({ email: req.body.email, password: req.body.password });
 
