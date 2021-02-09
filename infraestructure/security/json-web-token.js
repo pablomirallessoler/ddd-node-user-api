@@ -9,7 +9,7 @@ class JsonWebToken {
     }
 
     decode(toDecode) {
-        return jwt.decode(toDecode, jwtSecret)
+        return jwt.verify(toDecode, jwtSecret)
     }
 
 }
