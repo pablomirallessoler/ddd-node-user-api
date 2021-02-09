@@ -6,8 +6,12 @@ class Adapter {
     }
 
     async connect() {
-        this._client = await MongoClient.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
-        console.log(`Connected to Mongo`);
+        try {
+            this._client = await MongoClient.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+            console.log(`Connected to Mongo`);
+        } catch (ex) {
+            throw new Error('Database error');
+        }
     }
 
     async getClient() {

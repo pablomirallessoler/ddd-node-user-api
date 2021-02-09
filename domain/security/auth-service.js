@@ -14,7 +14,7 @@ class AuthService {
         let token;
 
         try {
-            const decodedToken = this._jsonWebToken.decode(encodedToken);
+            const decodedToken = this._jsonWebToken.verify(encodedToken);
             exp = decodedToken.exp;
             authSession = decodedToken.authSession;
             token = new Token({ exp, authSession });
@@ -26,6 +26,20 @@ class AuthService {
         } else {
             return true;
         }
+    }
+
+    hasPermissionForUser(encodedToken, userId) {
+        let authSession;
+        try {
+            const decodedToken = this._jsonWebToken.decode(encodedToken);
+            authSession = decodedToken.authSession;
+            if (authSession.id === userId) {
+                return true;
+            }
+        } catch (ex) {
+            throw new Error('Invalid token');
+        }
+        return false;
     }
 
     async authenticate({ email, password }) {

@@ -17,6 +17,12 @@ const authValidator = (req, res, next) => {
 
     try {
         if (authService.isAuthenticated(encodedToken)) {
+            const userRequestId = req.params.id;
+            if (userRequestId) {
+                if (!authService.hasPermissionForUser(encodedToken, userRequestId)) {
+                    return res.status(403).send({ error: 'Forbidden' });
+                }
+            }
             next();
         } else {
             return res.status(401).send({ error: 'Authorization error' });

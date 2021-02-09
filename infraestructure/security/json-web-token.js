@@ -8,8 +8,12 @@ class JsonWebToken {
         return jwt.sign(toEncode, jwtSecret, { expiresIn: jwtExpirationTime });
     }
 
-    decode(toDecode) {
+    verify(toDecode) {
         return jwt.verify(toDecode, jwtSecret)
+    }
+
+    decode(toDecode) {
+        return jwt.decode(toDecode, jwtSecret)
     }
 
 }

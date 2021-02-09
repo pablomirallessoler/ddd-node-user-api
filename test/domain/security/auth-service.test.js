@@ -10,6 +10,7 @@ describe('AuthService', () => {
     beforeEach(() => {
         jsonWebTokenMock = {
             encode: jest.fn(),
+            verify: jest.fn(),
             decode: jest.fn()
         };
         bcryptPasswordMock = {
@@ -91,7 +92,7 @@ describe('AuthService', () => {
     });
 
     test('should throw error when provided token is invalid', () => {
-        jsonWebTokenMock.decode.mockImplementation(() => { throw new Error('error') });
+        jsonWebTokenMock.verify.mockImplementation(() => { throw new Error('error') });
         expect(() =>
             authService.isAuthenticated({ token: 'JWT' })
         ).toThrow('Invalid token');
@@ -100,7 +101,7 @@ describe('AuthService', () => {
     test('should throw error when provided token is expired', () => {
         const id = '601fc3f352c4e17bb8574a83';
 
-        jsonWebTokenMock.decode.mockReturnValue({ exp: 1612735347, authSession: { id } });
+        jsonWebTokenMock.verify.mockReturnValue({ exp: 1612735347, authSession: { id } });
         expect(() =>
             authService.isAuthenticated({ token: 'JWT' })
         ).toThrow('Session is expired');
@@ -109,7 +110,7 @@ describe('AuthService', () => {
     test('should return true when provided token is valid', () => {
         const id = '601fc3f352c4e17bb8574a83';
 
-        jsonWebTokenMock.decode.mockReturnValue({ exp: 99999999999, authSession: { id } });
+        jsonWebTokenMock.verify.mockReturnValue({ exp: 99999999999, authSession: { id } });
 
         expect(authService.isAuthenticated({ token: 'JWT' })).toBeTruthy();
     });
