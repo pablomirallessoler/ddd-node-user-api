@@ -10,5 +10,14 @@ services:
     volumes:
       - ddd-node-mongo:/data/db
 
+  ddd-node-user:
+    image: pmiralles/ddd-node-user-api
+    restart: always
+    container_name: ddd-node-user-api
+    depends_on:
+      - "mongo"
+    ports:
+      - 3000:3000
+
 volumes:
   ddd-node-mongo:
