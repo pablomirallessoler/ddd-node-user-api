@@ -1,45 +1,25 @@
-const Token = require('./token');
-
 class AuthService {
 
-    constructor({ userRepository, bcryptPassword, jsonWebToken }) {
+    constructor({ userRepository, passwordChecker, tokenVerifier }) {
         this._userRepository = userRepository;
-        this._bcryptPassword = bcryptPassword;
-        this._jsonWebToken = jsonWebToken;
+        this._passwordChecker = passwordChecker;
+        this._tokenVerifier = tokenVerifier;
     }
 
     isAuthenticated(encodedToken) {
-        let exp;
-        let authSession;
-        let token;
-
         try {
-            const decodedToken = this._jsonWebToken.verify(encodedToken);
-            exp = decodedToken.exp;
-            authSession = decodedToken.authSession;
-            token = new Token({ exp, authSession });
+            this._tokenVerifier.verify(encodedToken);
         } catch (ex) {
-            throw new Error('Invalid token');
+            throw new Error('Invalid or expired token');
         }
-        if (token.isExpired) {
-            throw new Error('Session is expired');
-        } else {
-            return true;
-        }
+        return true;
     }
 
     hasPermissionForUser(encodedToken, userId) {
-        let authSession;
-        try {
-            const decodedToken = this._jsonWebToken.decode(encodedToken);
-            authSession = decodedToken.authSession;
-            if (authSession.id === userId) {
-                return true;
-            }
-        } catch (ex) {
-            throw new Error('Invalid token');
-        }
-        return false;
+        const decodedToken = this._tokenVerifier.decode(encodedToken);
+        const authSession = decodedToken.authSession;
+
+        return authSession.id === userId;
     }
 
     async authenticate({ email, password }) {
@@ -49,8 +29,8 @@ class AuthService {
             throw new Error('Invalid email or password');
         }
 
-        if (await this._bcryptPassword.compare(password, persistedUser.password)) {
-            return this._jsonWebToken.encode({ authSession: { id: persistedUser.id } });
+        if (await this._passwordChecker.compare(password, persistedUser.password)) {
+            return this._tokenVerifier.encode({ authSession: { id: persistedUser.id } });
         }
 
         throw new Error('Invalid email or password');

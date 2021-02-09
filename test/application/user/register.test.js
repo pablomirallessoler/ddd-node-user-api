@@ -5,7 +5,7 @@ const User = require('../../../domain/user/user');
 describe('Register user', () => {
     let registerUser;
     let userRepositoryMock;
-    let bcryptPasswordMock;
+    let passwordCheckerMock;
     let userRequest;
 
     beforeEach(() => {
@@ -13,12 +13,12 @@ describe('Register user', () => {
             save: jest.fn(),
             findByEmail: jest.fn()
         };
-        bcryptPasswordMock = {
+        passwordCheckerMock = {
             encrypt: jest.fn()
         }
         container.register({
             userRepository: awilix.asValue(userRepositoryMock),
-            bcryptPassword: awilix.asValue(bcryptPasswordMock)
+            passwordChecker: awilix.asValue(passwordCheckerMock)
         });
         registerUser = container.resolve('registerUser');
         userRequest = {
@@ -40,7 +40,7 @@ describe('Register user', () => {
 
     test('should register user', async () => {
         userRepositoryMock.findByEmail.mockReturnValue(null);
-        bcryptPasswordMock.encrypt.mockReturnValue('encryptedPassword');
+        passwordCheckerMock.encrypt.mockReturnValue('encryptedPassword');
 
         const expectedUser = new User({
             id: '601fc3f352c4e17bb8574a83',
@@ -59,8 +59,8 @@ describe('Register user', () => {
 
         await registerUser.register(userRequest);
 
-        expect(bcryptPasswordMock.encrypt.mock.calls.length).toEqual(1);
-        expect(bcryptPasswordMock.encrypt.mock.calls[0][0]).toEqual(userRequest.password);
+        expect(passwordCheckerMock.encrypt.mock.calls.length).toEqual(1);
+        expect(passwordCheckerMock.encrypt.mock.calls[0][0]).toEqual(userRequest.password);
 
         expect(userRepositoryMock.findByEmail.mock.calls.length).toEqual(1);
         expect(userRepositoryMock.findByEmail.mock.calls[0][0]).toEqual(userRequest.email);

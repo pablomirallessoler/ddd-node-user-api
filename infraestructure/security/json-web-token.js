@@ -1,19 +1,20 @@
 const jwt = require('jsonwebtoken');
+const TokenVerifier = require('../../domain/security/token-verifier');
 const jwtSecret = process.env.JWT_SECRET;
 const jwtExpirationTime = process.env.JWT_EXPIRATION_TIME;
 
-class JsonWebToken {
+class JsonWebToken extends TokenVerifier {
 
     encode(toEncode) {
         return jwt.sign(toEncode, jwtSecret, { expiresIn: jwtExpirationTime });
     }
 
-    verify(toDecode) {
-        return jwt.verify(toDecode, jwtSecret)
+    verify(toVerify) {
+        return jwt.verify(toVerify, jwtSecret);
     }
 
     decode(toDecode) {
-        return jwt.decode(toDecode, jwtSecret)
+        return jwt.decode(toDecode);
     }
 
 }

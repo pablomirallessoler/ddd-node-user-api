@@ -24,8 +24,6 @@ const authValidator = (req, res, next) => {
                 }
             }
             next();
-        } else {
-            return res.status(401).send({ error: 'Authorization error' });
         }
     } catch ({ message }) {
         return res.status(401).send({ error: message });

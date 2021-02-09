@@ -2,9 +2,9 @@ const User = require('../../domain/user/user');
 
 class RegisterUser {
 
-    constructor({ userRepository, bcryptPassword }) {
+    constructor({ userRepository, passwordChecker }) {
         this._userRepository = userRepository;
-        this._bcryptPassword = bcryptPassword;
+        this._passwordChecker = passwordChecker;
     }
 
     async register({ id, password, firstName, lastName, phone, email, country, postalCode }) {
@@ -14,7 +14,7 @@ class RegisterUser {
             throw new Error('This email is already registered');
         }
 
-        const encryptedPassword = await this._bcryptPassword.encrypt(password);
+        const encryptedPassword = await this._passwordChecker.encrypt(password);
 
         const user = new User({
             id,
