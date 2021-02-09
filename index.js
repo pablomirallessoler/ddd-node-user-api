@@ -15,7 +15,11 @@ app.use(userRouter);
 
 app.use(errorHandler);
 
-const server = app.listen(PORT, () => console.log(`User listening at http://localhost:${PORT}`));
+const server = app.listen(PORT, () => {
+    if (process.env.NODE_ENV !== 'test') {
+        console.log(`User listening at http://localhost:${PORT}`);
+    }
+});
 
 const shutDown = async () => {
     await adapter.disconnect();

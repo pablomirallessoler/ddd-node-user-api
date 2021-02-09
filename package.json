@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node . index.js",
-    "test": "jest"
+    "test": "NODE_ENV=test jest"
   },
   "author": "Pablo Miralles",
   "license": "ISC",
@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "jest": "^26.6.3",
-    "node-mocks-http": "^1.10.1"
+    "node-mocks-http": "^1.10.1",
+    "supertest": "^6.1.3"
   }
 }
